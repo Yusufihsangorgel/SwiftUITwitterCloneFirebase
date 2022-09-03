@@ -9,10 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        ZStack(alignment: .topLeading){
+            MainTabView()
+        }
     }
 }
+// This Zstack for the Upper spacing because upper spacing is use for the user profile - title
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
