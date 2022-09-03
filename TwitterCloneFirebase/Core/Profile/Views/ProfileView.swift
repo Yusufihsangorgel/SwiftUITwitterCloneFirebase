@@ -9,22 +9,20 @@ import SwiftUI
 
 struct ProfileView: View {
     @State private var selectionFilter: TweetFilterViewModel = .tweets
+  //  @State var currentTab: Int = 0
+    @Namespace var animation
     var body: some View {
         VStack(alignment: .leading){
             headerView
             actionButtons
             bottomProfile
+           // headerTabBar
+           headerCustomTabBar
             
-            HStack{
-                ForEach(TweetFilterViewModel.allCases, id: \.rawValue) { item in
-                    VStack{
-                        Text(item.title)
-                            .font(.subheadline)
-                            .fontWeight(selectionFilter == item ? .semibold : .regular)
-                    }
-                }
-            }
+           tweetsView
+            
             Spacer()
+            
         }
     }
 }
@@ -139,4 +137,125 @@ extension ProfileView{
         }
         .padding(.horizontal)
     }
+    
+    var headerCustomTabBar: some View {
+        HStack{
+            ForEach(TweetFilterViewModel.allCases, id: \.rawValue) { item in
+                VStack{
+                    Text(item.title)
+                        .font(.subheadline)
+                        .fontWeight(selectionFilter == item ? .semibold : .regular)
+                        .foregroundColor(selectionFilter == item ? .black : .gray)
+                    
+                    if selectionFilter == item {
+                        Capsule()
+                            .foregroundColor(Color(.systemBlue))
+                            .frame(height: 2)
+                            .matchedGeometryEffect(id: "filter", in: animation)
+     
+                        
+                    }
+                    else{
+                        Capsule()
+                            .foregroundColor(Color(.clear))
+                    }
+                }
+                
+                .onTapGesture {
+                    withAnimation(.easeInOut){
+                        self.selectionFilter = item
+                    }
+                }
+            }
+        }
+        .overlay(Divider().offset(x: 0, y:16))
+        .frame(width: .infinity , height: 20)
+        
+        
+    }
+    
+    var tweetsView: some View {
+        ScrollView{
+            LazyVStack{
+                ForEach(0...9, id: \.self){_ in
+                    TweetsRowView()
+                        .padding()
+                }
+            }
+        }
+    }
+    
+    
+//    var headerTabBar: some View {
+//        ZStack(alignment: .top) {
+//                    TabView(selection: self.$currentTab) {
+//                        ExploreView().tag(0)
+//                        NotificationsView().tag(1)
+//                        MessagesView().tag(2)
+//                    }
+//                    .tabViewStyle(.page(indexDisplayMode: .never))
+//                    .edgesIgnoringSafeArea(.all)
+//
+//                    TabBarView(currentTab: self.$currentTab)
+//                }
+//    }
+   
 }
+
+//struct TabBarView: View {
+//    @Binding var currentTab: Int
+//    @Namespace var namespace
+//
+//    var tabBarOptions: [String] = ["Hello World", "This is", "Something cool that I'm doing"]
+//    var body: some View {
+//        ScrollView(.horizontal, showsIndicators: false) {
+//            HStack(spacing: 20) {
+//                ForEach(Array(zip(self.tabBarOptions.indices,
+//                                  self.tabBarOptions)),
+//                        id: \.0,
+//                        content: {
+//                    index, name in
+//                    TabBarItem(currentTab: self.$currentTab,
+//                               namespace: namespace.self,
+//                               tabBarItemName: name,
+//                               tab: index)
+//
+//                })
+//            }
+//            .padding(.horizontal)
+//        }
+//        .background(Color.white)
+//        .frame(height: 80)
+//        .edgesIgnoringSafeArea(.all)
+//    }
+//}
+//
+//struct TabBarItem: View {
+//    @Binding var currentTab: Int
+//    let namespace: Namespace.ID
+//
+//    var tabBarItemName: String
+//    var tab: Int
+//
+//    var body: some View {
+//        Button {
+//            self.currentTab = tab
+//        } label: {
+//            VStack {
+//                Spacer()
+//                Text(tabBarItemName)
+//                if currentTab == tab {
+//                    Color.black
+//                        .frame(height: 2)
+//                        .matchedGeometryEffect(id: "underline",
+//                                               in: namespace,
+//                                               properties: .frame)
+//                } else {
+//                    Color.clear.frame(height: 2)
+//                }
+//            }
+//            .animation(.spring(), value: self.currentTab)
+//        }
+//        .buttonStyle(.plain)
+//    }
+//}
