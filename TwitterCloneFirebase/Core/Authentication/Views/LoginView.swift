@@ -10,15 +10,33 @@ import SwiftUI
 struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
+    @EnvironmentObject var viewModel : AuthViewModel
+    @State var isValidEmail = true
+    @State var isValidPassword = true
+    
     var body: some View {
         VStack{
             AuthHeader(title1: "Hello.", title2: "Welcome Back.")
             
             
             VStack(spacing: 40){
-                CustomTextField(imageName: "envelope", placeHolderText: "Email", text: $email)
+                CustomTextField(fieldType: .NORMALLY, imageName: "envelope", placeHolderText: "Email", text: $email)
+                if !self.isValidEmail {
+                    Text("Please check email")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                    
+                }
                 
-                CustomTextField(imageName: "lock", placeHolderText: "Password", text: $password)
+                CustomTextField(fieldType: .SECURE, imageName: "lock", placeHolderText: "Password", text: $password)
+                if !self.isValidPassword {
+                    Text("Please check password")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                      
+                }
             }
             .padding(.horizontal,32)
             .padding(.top,44 )
@@ -39,7 +57,12 @@ struct LoginView: View {
 
             }
             Button {
-                print("")
+             valid()
+                
+                if(self.isValidEmail && self.isValidPassword ) {
+                    viewModel.login(withEmail: email, password: password)
+                }
+               
             } label: {
                 Text("Sign In")
                     .font(.headline)
@@ -70,6 +93,11 @@ struct LoginView: View {
             
         }
         .ignoresSafeArea()
+    }
+    
+    func valid()  {
+       isValidEmail = email.isValidWith(regexType: .email)
+      isValidPassword = password.isValidWith(regexType: .minLetters(8))
     }
 }
 

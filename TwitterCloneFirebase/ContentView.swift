@@ -6,11 +6,47 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ContentView: View {
-    @State private var showMenu = false
+  
     // if the user click de circle button , this toggle working and showmenu true
+    @EnvironmentObject var viewModel: AuthViewModel
+    @State private var showMenu = false
+   
+    
+    let url = URL(string: "https://c.tenor.com/cGd-T9BNSkkAAAAC/twitter.gif")
+    
     var body: some View {
+
+   
+            Group{
+                if viewModel.userSession == nil {
+                    //not have user
+                    LoginView()
+                } else {
+                    //have a user
+                    haveUserView
+                }
+            
+            }
+    }
+        
+
+    }
+
+// This Zstack for the Upper spacing because upper spacing is use for the user profile - title
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+
+
+ extension ContentView {
+    var haveUserView: some View {
         ZStack(alignment: .topLeading){
             MainTabView()
                 .navigationBarHidden(showMenu)
@@ -51,13 +87,32 @@ struct ContentView: View {
         .onAppear{
             showMenu = false
         }
-       
     }
+     
+     
+//     var splashView: some View {
+//         VStack {
+//             VStack {
+//                 KFImage(URL(string: "https://www.waseefakhtar.com/content/images/2021/04/14.gif")!)
+//                     .resizable()
+//             }
+//             .scaleEffect(size)
+//             .opacity(opacity)
+//             .onAppear {
+//                 withAnimation(.easeIn(duration: 1.2)) {
+//                     self.size = 0.9
+//                     self.opacity = 1.00
+//                 }
+//             }
+//         }
+//         .onAppear {
+//             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                 withAnimation {
+//                     self.isActive = true
+//                 }
+//             }
+//         }
+//     }
+    
 }
-// This Zstack for the Upper spacing because upper spacing is use for the user profile - title
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}

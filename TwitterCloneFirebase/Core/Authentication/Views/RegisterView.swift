@@ -13,22 +13,61 @@ struct RegisterView: View {
     @State private var fullname = ""
     @State private var password = ""
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewModel: AuthViewModel
+    @State var isValidEmail = true
+    @State var isValidPassword = true
+    @State var isValidusername = true
+    @State var isValidfullname = true
     var body: some View {
         VStack(spacing: 40){
             AuthHeader(title1: "Get started.", title2: "Create your account.")
             
             VStack(spacing: 50){
-                CustomTextField(imageName: "envelope", placeHolderText: "Email", text: $email)
+                CustomTextField(fieldType: .NORMALLY, imageName: "envelope", placeHolderText: "Email", text: $email)
+                if !self.isValidEmail {
+                    Text("Please check email")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                      
+                }
                 
-                CustomTextField(imageName: "person", placeHolderText: "Username", text: $username)
-                CustomTextField(imageName: "person", placeHolderText: "Full Name", text: $fullname)
+                CustomTextField(fieldType: .NORMALLY, imageName: "person", placeHolderText: "Username", text: $username)
+                if !self.isValidusername {
+                    Text("Please check Username min 5 characters")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                      
+                }
                 
-                CustomTextField(imageName: "lock", placeHolderText: "Password", text: $password)
+                CustomTextField(fieldType: .NORMALLY, imageName: "person", placeHolderText: "Full Name", text: $fullname)
+                if !self.isValidfullname {
+                    Text("Please check name min 4 characters")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                      
+                }
+                
+                CustomTextField(fieldType: .SECURE, imageName: "lock", placeHolderText: "Password", text: $password)
+                if !self.isValidPassword {
+                    Text("Please check password")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                      
+                }
             }
             .padding(20)
             
             Button {
-                presentationMode.wrappedValue.dismiss()
+                valid()
+                
+                if(self.isValidEmail && self.isValidPassword && self.isValidfullname && self.isValidusername ) {
+                    viewModel.register(withEmail: email, password: password, fullname: fullname, username: username)
+                }
+             
             } label: {
                 Text("Sign Up")
                     .font(.headline)
@@ -61,6 +100,13 @@ struct RegisterView: View {
             .foregroundColor(.blue)
         }
         .ignoresSafeArea()
+    }
+    
+    func valid()  {
+       isValidEmail = email.isValidWith(regexType: .email)
+      isValidPassword = password.isValidWith(regexType: .minLetters(8))
+        isValidusername = username.isValidWith(regexType: .minLetters(5))
+        isValidfullname = fullname.isValidWith(regexType: .minLetters(3))
     }
 }
 
