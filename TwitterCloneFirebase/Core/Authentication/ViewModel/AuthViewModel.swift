@@ -64,8 +64,9 @@ class AuthViewModel: ObservableObject {
     
     
     func uploadProfileImage(_ image: UIImage){
-        guard let uid = userSession?.uid else {return}
+        guard let uid = tempUserSession?.uid else {return print("bla blabbla")}
         
+        print("burda knk not blabla")
         ImageUploadService.uploadImage(image: image) { profileImageUrl in
             Firestore.firestore().collection("users")
                 .document(uid)
@@ -91,7 +92,7 @@ extension String {
         case none
         case mobileNumberWithItalianCode    // Example: "+39 3401234567"
         case email                          // Example: "foo@example.com"
-        case minLetters(_ letters: Int)     // Example: "Al"
+        case minLetters    // Example: "Al"
         case minDigit(_ digits: Int)        // Example: "0612345"
         case onlyLetters                    // Example: "ABDEFGHILM"
         case onlyNumbers                    // Example: "132543136"
@@ -105,8 +106,8 @@ extension String {
                 return #"^(\+39 )\d{9,}$"#
             case .email:
                 return #"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"#
-            case .minLetters(let letters):
-                return #"^\D{"# + "\(letters)" + #",}$"#
+            case .minLetters:
+                return #"^[a-zA-Z0-9\s,-]{5,}"#
             case .minDigit(let digits):
                 return #"^(\d{"# + "\(digits)" + #",}){1}$"#
             case .onlyLetters:

@@ -18,13 +18,13 @@ struct ProfilePhotoSelectorView: View {
             
             
             Button {
-                print("")
+                showImagePicker.toggle()
             } label: {
                 if let profileImage = profileImage {
                     profileImage
-                        .resizable()
-                        .renderingMode(.template)
-                        .modifier(ProfileImageModifier())
+//                        .resizable()
+//                        .renderingMode(.template)
+                      .modifier(ProfileImageModifier())
                             
                 } else {
                     Image(systemName: "photo.circle")
@@ -42,7 +42,6 @@ struct ProfilePhotoSelectorView: View {
             if  let selectedImage = selectedImage {
                 Button {
                     viewModel.uploadProfileImage(selectedImage)
-                 
                 } label: {
                     Text("Continue")
                         .font(.headline)
@@ -62,19 +61,25 @@ struct ProfilePhotoSelectorView: View {
         }
     
     func loadImage(){
-        guard let selectedImage = selectedImage else {
-            return
-        }
+        guard let selectedImage = selectedImage else {return}
         profileImage = Image(uiImage: selectedImage)
 
     }
     
     }
 
+struct ProfilePhotoSelectorView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfilePhotoSelectorView()
+    }
+}
+
+
+
 private struct ProfileImageModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .foregroundColor(.blue)
+
             .scaledToFill()
             .frame(width: 180, height: 180)
             .clipShape(Circle())

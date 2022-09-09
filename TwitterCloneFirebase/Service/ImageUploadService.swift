@@ -5,10 +5,10 @@
 //  Created by Yusuf İhsan Görgel on 9.09.2022.
 //
 
-import Firebase
+
+
 import FirebaseStorage
 import UIKit
-import SwiftUI
 
 struct ImageUploadService {
     
@@ -23,11 +23,11 @@ struct ImageUploadService {
                 print("DEBUG: Failed to upload image with error \(error.localizedDescription)")
                 return
             }
-            
             ref.downloadURL { imageUrl, _ in
                 guard let imageUrl = imageUrl?.absoluteString else { return}
                 competion(imageUrl)
             }
+
         }
     }
 }

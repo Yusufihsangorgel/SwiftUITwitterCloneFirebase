@@ -97,7 +97,7 @@ struct LoginView: View {
     
     func valid()  {
        isValidEmail = email.isValidWith(regexType: .email)
-      isValidPassword = password.isValidWith(regexType: .minLetters(8))
+        isValidPassword = password.isValidWith(regexType: .minLetters)
     }
 }
 
