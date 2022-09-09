@@ -20,6 +20,13 @@ struct RegisterView: View {
     @State var isValidfullname = true
     var body: some View {
         VStack(spacing: 40){
+            
+            
+            NavigationLink(destination: ProfilePhotoSelectorView(), isActive: $viewModel.isAuthUser) {
+                
+            }
+            
+            
             AuthHeader(title1: "Get started.", title2: "Create your account.")
             
             VStack(spacing: 50){

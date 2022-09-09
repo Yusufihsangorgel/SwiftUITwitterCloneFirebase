@@ -11,6 +11,8 @@ import Firebase
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     // if have a user , this property have value , of not have a user this propety null
+    @Published var isAuthUser = false
+    private var tempUserSession: FirebaseAuth.User?
     init(){
         self.userSession = Auth.auth().currentUser
         
@@ -40,8 +42,8 @@ class AuthViewModel: ObservableObject {
             }
             
             guard let user = result?.user else {return}
-            self.userSession = user
-            
+
+            self.tempUserSession = user
             print("DEBUG: Register succsess , user is \(self.userSession) ")
             
             
@@ -49,6 +51,9 @@ class AuthViewModel: ObservableObject {
             
             Firestore.firestore().collection("users")
                 .document(user.uid)
+                .setData(data){ _ in
+                    self.isAuthUser = true
+                }
         }
     }
     
@@ -58,11 +63,28 @@ class AuthViewModel: ObservableObject {
     }
     
     
-    
+    func uploadProfileImage(_ image: UIImage){
+        guard let uid = userSession?.uid else {return}
+        
+        ImageUploadService.uploadImage(image: image) { profileImageUrl in
+            Firestore.firestore().collection("users")
+                .document(uid)
+                .updateData(["profileImageUrl": profileImageUrl]){_ in
+                    self.userSession = self.tempUserSession
+                }
+        }
+    }
     
     
 }
 
+
+
+
+
+
+
+// field validate with regex
 extension String {
     
     enum RegexType {

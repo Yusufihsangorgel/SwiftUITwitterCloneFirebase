@@ -29,7 +29,7 @@ struct TwitterCloneFirebaseApp: App {
             NavigationView{
             if isActive {
                 
-                 ContentView()
+             ContentView()
        
                 
             } else {
