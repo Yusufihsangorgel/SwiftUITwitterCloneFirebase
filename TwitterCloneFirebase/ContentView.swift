@@ -37,12 +37,6 @@ struct ContentView: View {
 
 // This Zstack for the Upper spacing because upper spacing is use for the user profile - title
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-
 
 
  extension ContentView {
@@ -73,13 +67,18 @@ struct ContentView_Previews: PreviewProvider {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    withAnimation(.easeInOut) {
-                        showMenu.toggle()
+                if let user = viewModel.currentUser{
+                    Button {
+                        withAnimation(.easeInOut) {
+                            showMenu.toggle()
+                        }
+                    } label: {
+                        KFImage(URL(string: user.profileImageUrl))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 32, height: 32)
+                            .clipShape(Circle())
                     }
-                } label: {
-                    Circle()
-                        .frame(width: 32, height: 32)
                 }
 
             }

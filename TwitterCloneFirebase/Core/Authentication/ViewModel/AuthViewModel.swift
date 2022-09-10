@@ -12,11 +12,19 @@ class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     // if have a user , this property have value , of not have a user this propety null
     @Published var isAuthUser = false
+    @Published var currentUser: User?
     private var tempUserSession: FirebaseAuth.User?
+    
+    
+    
+    
+    private let service = UserService()
+    
+    
     init(){
         self.userSession = Auth.auth().currentUser
-        
-        print("DEBUG: User status is \(String(describing: self.userSession?.uid)) ")
+        self.fetchUser()
+     
     }
     
     func login(withEmail email: String , password: String){
@@ -76,6 +84,13 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    func fetchUser(){
+        guard let uid = self.userSession?.uid else {return}
+        
+        service.fetchUser(withUid: uid) { user in
+            self.currentUser = user
+        }
+    }
     
 }
 
