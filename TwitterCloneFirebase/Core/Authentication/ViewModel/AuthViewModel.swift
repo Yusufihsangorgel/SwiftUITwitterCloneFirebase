@@ -25,6 +25,7 @@ class AuthViewModel: ObservableObject{
     init(){
         self.userSession = Auth.auth().currentUser
         self.fetchUser()
+       // self.fetchUser2()
      
     }
     
@@ -39,7 +40,7 @@ class AuthViewModel: ObservableObject{
             guard let user = result?.user else {return}
             self.userSession = user
             self.fetchUser()
-            
+//            self.fetchUser2()
             
             
                    }
@@ -61,7 +62,7 @@ class AuthViewModel: ObservableObject{
 
             
             
-            let data = ["email": email , "username:" : username.lowercased(), "fullname:": fullname, "uid:": user.uid ]
+            let data = ["email": email , "username" : username.lowercased(), "fullname": fullname, "uid": user.uid ]
             
             Firestore.firestore().collection("users")
                 .document(user.uid)
@@ -99,6 +100,15 @@ class AuthViewModel: ObservableObject{
             self.currentUser = user
         }
     }
+//
+//    func fetchUser2(){
+//
+//
+//
+//        service.fetchUser2 { user in
+//            self.currentUser = user
+//        }
+//    }
     
 }
 
