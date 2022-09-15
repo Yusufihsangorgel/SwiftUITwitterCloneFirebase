@@ -7,23 +7,45 @@
 
 
 import Firebase
-import FirebaseFirestoreSwift
 
 
 struct UserService {
-    var db = Firestore.firestore()
+    
     
     
     func fetchUser(withUid uid: String, completion: @escaping(User) -> Void){
-        db.collection("users")
+        Firestore.firestore().collection("users")
             .document(uid)
-            .getDocument { snapshot, _ in
-                guard let snapshot = snapshot  else {return}
+            .getDocument { snapshot, error in
+                if let error = error {
+                                print("DEBUG: Couldnt Fetch Users \(error.localizedDescription)")
+                } else {
+                guard let data = snapshot  else {return print("1")}
                 
-                guard let user = try? snapshot.data(as: User.self) else {return}
-                completion(user)
-                
-                print("DEBUG: User data is \(user.username)")
-            }
+                    
+                    print("2 \(data)")
+                    
+//                guard let user = try? snapshot.data(as: User.self) else {return print("offf")} //burada tıkanıyor
+//                    print("3")
+//                completion(user)
+               
+
+                }}
     }
+    
+    func fetchUsers(completion: @escaping ([User]) -> Void){
+        Firestore.firestore().collection("users").getDocuments { snapshot, _ in
+            guard let documents = snapshot?.documents else {return}
+            let users = documents.compactMap({try? $0.data(as: User.self)})
+            
+//            documents.forEach { document in
+//                guard let user = try? document.data(as: User.self) else {return}
+//                users.append(user)
+//            }
+            completion(users)
+        }
+        
+    }
+    
+    
 }

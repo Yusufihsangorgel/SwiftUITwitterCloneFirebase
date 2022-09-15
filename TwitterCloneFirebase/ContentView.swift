@@ -80,6 +80,19 @@ struct ContentView: View {
                             .clipShape(Circle())
                     }
                 }
+                else {
+                    Button {
+                        withAnimation(.easeInOut) {
+                            showMenu.toggle()
+                        }
+                    } label: {
+                        Circle()
+              
+                            .foregroundColor(.blue)
+                            .frame(width: 32, height: 32)
+                       
+                    }
+                }
 
             }
         }
