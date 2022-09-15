@@ -13,10 +13,10 @@ struct ProfileView: View {
     @Environment(\.presentationMode) var presentation
   //  @State var currentTab: Int = 0
     @Namespace var animation
-    private let user: User
+    @ObservedObject var viewModel: ProfileViewModel
     
     init(user: User){
-        self.user = user
+        self.viewModel = ProfileViewModel(user: user)
     }
     
     
@@ -63,7 +63,7 @@ extension ProfileView{
                         .offset(x: 16, y: -4)
                 }
 
-                KFImage(URL(string: user.profileImageUrl))
+                KFImage(URL(string: viewModel.user.profileImageUrl))
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
@@ -100,14 +100,14 @@ extension ProfileView{
     var bottomProfile: some View {
         VStack(alignment: .leading,spacing: 4){
             HStack(){
-                Text(user.fullname)
+                Text(viewModel.user.fullname)
                     .font(.title2).bold()
                     .frame(width: 200, height: 30)
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundColor(Color(.systemBlue))
                 
             }
-            Text("\(user.username)")
+            Text("\(viewModel.user.username)")
                 .font(.subheadline)
                 .foregroundColor(.gray)
             
@@ -180,9 +180,9 @@ extension ProfileView{
     var tweetsView: some View {
         ScrollView{
             LazyVStack{
-                ForEach(0...9, id: \.self){_ in
-//                    TweetsRowView()
-//                        .padding()
+                ForEach(viewModel.tweets){tweet in
+                    TweetsRowView(tweet: tweet)
+                       .padding()
                 }
             }
         }
