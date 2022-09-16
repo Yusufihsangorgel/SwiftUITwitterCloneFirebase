@@ -6,30 +6,27 @@
 //
 
 import SwiftUI
-import Kingfisher
+//import Kingfisher
 
 struct ContentView: View {
-  
     // if the user click de circle button , this toggle working and showmenu true
     @EnvironmentObject var viewModel: AuthViewModel
-    @State private var showMenu = false
-   
-    
-    let url = URL(string: "https://c.tenor.com/cGd-T9BNSkkAAAAC/twitter.gif")
-    
-    var body: some View {
 
    
-            Group{
+    
+   // let url = URL(string: "https://c.tenor.com/cGd-T9BNSkkAAAAC/twitter.gif")
+    
+    var body: some View {
+        
                 if viewModel.userSession == nil {
                     //not have user
                     LoginView()
                 } else {
                     //have a user
-                    haveUserView
+                    MainTabView()
                 }
             
-            }
+            
     }
         
 
@@ -39,92 +36,68 @@ struct ContentView: View {
 
 
 
- extension ContentView {
-    var haveUserView: some View {
-        ZStack(alignment: .topLeading){
-            MainTabView()
-                .navigationBarHidden(showMenu)
-            
-            if showMenu {
-                ZStack{
-                    Color(.black)
-                        .opacity(showMenu ? 0.25 : 0.0)
-                }.onTapGesture {
-                    withAnimation(.easeInOut) {
-                        showMenu = false
-                    }
-                }
-                .ignoresSafeArea()
-            }
-            
-            SideMenuView()
-                .frame(width: 300)
-                .offset(x: showMenu ? 0 : -300, y : 0)
-            // this offset work for  sidemenu open and off
-                .background(showMenu ? .white : .clear)
-        }
-        .navigationTitle("Home")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                if let user = viewModel.currentUser{
-                    Button {
-                        withAnimation(.easeInOut) {
-                            showMenu.toggle()
-                        }
-                    } label: {
-                        KFImage(URL(string: user.profileImageUrl))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 32, height: 32)
-                            .clipShape(Circle())
-                    }
-                }
-                else {
-                    Button {
-                        withAnimation(.easeInOut) {
-                            showMenu.toggle()
-                        }
-                    } label: {
-                        Circle()
-              
-                            .foregroundColor(.blue)
-                            .frame(width: 32, height: 32)
-                       
-                    }
-                }
-
-            }
-        }
-        .onAppear{
-            showMenu = false
-        }
-    }
-     
-     
-//     var splashView: some View {
-//         VStack {
-//             VStack {
-//                 KFImage(URL(string: "https://www.waseefakhtar.com/content/images/2021/04/14.gif")!)
-//                     .resizable()
-//             }
-//             .scaleEffect(size)
-//             .opacity(opacity)
-//             .onAppear {
-//                 withAnimation(.easeIn(duration: 1.2)) {
-//                     self.size = 0.9
-//                     self.opacity = 1.00
-//                 }
-//             }
-//         }
-//         .onAppear {
-//             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//                 withAnimation {
-//                     self.isActive = true
-//                 }
-//             }
-//         }
-//     }
-    
-}
+// extension ContentView {
+//    var haveUserView: some View {
+//        ZStack(alignment: .topLeading){
+//            MainTabView(titleName: titleName)
+//                .navigationBarHidden(showMenu)
+//
+//            if showMenu {
+//                ZStack{
+//                    Color(.black)
+//                        .opacity(showMenu ? 0.25 : 0.0)
+//                }.onTapGesture {
+//                    withAnimation(.easeInOut) {
+//                        showMenu = false
+//                    }
+//                }
+//                .ignoresSafeArea()
+//            }
+//
+//            SideMenuView()
+//                .frame(width: 300)
+//                .offset(x: showMenu ? 0 : -300, y : 0)
+//            // this offset work for  sidemenu open and off
+//                .background(showMenu ? .white : .clear)
+//        }
+//        .navigationTitle("\(titleName)")
+//        .navigationBarTitleDisplayMode(.inline)
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                if let user = viewModel.currentUser{
+//                    Button {
+//                        withAnimation(.easeInOut) {
+//                            showMenu.toggle()
+//                        }
+//                    } label: {
+//                        KFImage(URL(string: user.profileImageUrl))
+//                            .resizable()
+//                            .scaledToFill()
+//                            .frame(width: 32, height: 32)
+//                            .clipShape(Circle())
+//                    }
+//                }
+//                else {
+//                    Button {
+//                        withAnimation(.easeInOut) {
+//                            showMenu.toggle()
+//                        }
+//                    } label: {
+//                        Circle()
+//
+//                            .foregroundColor(.blue)
+//                            .frame(width: 32, height: 32)
+//
+//                    }
+//                }
+//
+//            }
+//        }
+//        .onAppear{
+//            showMenu = false
+//        }
+//    }
+//
+//
+//}
 

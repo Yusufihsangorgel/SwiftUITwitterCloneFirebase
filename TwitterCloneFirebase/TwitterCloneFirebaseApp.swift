@@ -19,6 +19,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct TwitterCloneFirebaseApp: App {
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var authState = AuthViewModel()
     @State var isActive : Bool = false
@@ -32,12 +33,13 @@ struct TwitterCloneFirebaseApp: App {
    
     
     var body: some Scene {
+   
         WindowGroup {
             
             NavigationView{
             if isActive {
                 
-             ContentView()
+                ContentView()
                  
                 
             } else {

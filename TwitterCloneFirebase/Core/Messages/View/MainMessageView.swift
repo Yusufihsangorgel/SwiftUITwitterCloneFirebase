@@ -27,7 +27,6 @@ struct MainMessageView: View {
             
 
         }
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
