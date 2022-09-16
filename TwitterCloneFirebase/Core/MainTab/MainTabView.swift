@@ -33,7 +33,7 @@ struct MainTabView: View {
                 .tabItem {
                     Image(systemName: "bell")
                 }.tag(2)
-            MessagesView()
+            MainMessageView()
                 .onTapGesture {
                     self.selectedIndex = 3
                 }
