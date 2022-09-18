@@ -55,7 +55,7 @@ struct MainTabView: View {
                 .background(showMenu ? .white : .clear)
         }
         .navigationTitle(
-            "\(self.titleName)"
+            "Twitter Clone"
         )
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -112,7 +112,7 @@ extension MainTabView {
                 .tabItem {
                     Image(systemName: "bell")
                 }.tag(2)
-            MainMessageView()
+             MessageView()
                 .onTapGesture {
                     titleChange()
                     self.selectedIndex = 3

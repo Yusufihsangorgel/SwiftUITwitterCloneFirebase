@@ -7,22 +7,27 @@
 
 import SwiftUI
 
-struct MainMessageView: View {
-    @ObservedObject var viewModel = ExploreViewModel()
+struct MessageView: View {
+    @State private var showNewMessageView = false
+    @State var shouldNavigateToChatLogView = false
+    @ObservedObject var viewModel = CreateNewMessageViewModel()
+    @State var messageUser: User?
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView{
                 LazyVStack{
                     ForEach(viewModel.users){ user in
                         NavigationLink {
-                            ProfileView(user: user)
+                            MessageLogView(chatUser: user)
                         } label: {
                             UserRowView(user: user)
                         }
 
                     }
+
                 }
             }
+            
             floatActionButton
             
 
@@ -31,17 +36,17 @@ struct MainMessageView: View {
 }
 
 
-struct MainMessageView_Previews: PreviewProvider {
+struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
-        MainMessageView()
+        MessageView()
     }
 }
 
-extension MainMessageView {
+extension MessageView {
     
     var floatActionButton: some View {
         Button {
-   
+            showNewMessageView.toggle()
         } label: {
             Image(systemName: "message")
                 .resizable()
@@ -53,7 +58,16 @@ extension MainMessageView {
         .foregroundColor(.white)
         .clipShape(Circle())
         .padding()
+        .fullScreenCover(isPresented: $showNewMessageView) {
+            NewMessageView(didSelectNewUser: { user in
+                print(user.email)
+                self.messageUser = user
+            })
+            //Fullscreencover is look like a new page in the page
+        }
         
     }
+    
+
     
 }
