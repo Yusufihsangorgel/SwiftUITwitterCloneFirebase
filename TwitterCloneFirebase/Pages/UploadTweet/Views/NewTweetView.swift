@@ -44,7 +44,7 @@ struct NewTweetView: View {
                         .clipShape(Circle())
                         .frame(width: 64, height: 64)
                 }
-                TextArea("Write bitch", text: $caption)
+                TextArea("Write tweet", text: $caption)
                 
             }
             .padding()

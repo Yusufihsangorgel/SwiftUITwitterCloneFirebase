@@ -324,11 +324,12 @@
 		33AFEF4028C2C9DC00DC6E71 /* TwitterCloneFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				33AFEF5428C2CB0500DC6E71 /* Components */,
 				3307096128CA700600E5F5C6 /* Utils */,
 				33AFEF5328C2CA6F00DC6E71 /* Extensions */,
 				33AFEF5228C2CA6D00DC6E71 /* Model */,
 				33AFEF5128C2CA6700DC6E71 /* Service */,
-				33AFEF4F28C2CA4900DC6E71 /* Core */,
+				33AFEF4F28C2CA4900DC6E71 /* Pages */,
 				33AFEF4128C2C9DC00DC6E71 /* TwitterCloneFirebaseApp.swift */,
 				33AFEF4328C2C9DC00DC6E71 /* ContentView.swift */,
 				33AFEF4528C2C9DE00DC6E71 /* Assets.xcassets */,
@@ -346,10 +347,9 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		33AFEF4F28C2CA4900DC6E71 /* Core */ = {
+		33AFEF4F28C2CA4900DC6E71 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
-				33AFEF5428C2CB0500DC6E71 /* Components */,
 				3380E86F28C4A78300B8E93F /* Authentication */,
 				337199D228C4353900B8A36B /* UploadTweet */,
 				33AFEF6428C2E07B00DC6E71 /* Messages */,
@@ -359,7 +359,7 @@
 				33AFEF5D28C2D65900DC6E71 /* MainTab */,
 				33AFEF5528C2CB1300DC6E71 /* Feed */,
 			);
-			path = Core;
+			path = Pages;
 			sourceTree = "<group>";
 		};
 		33AFEF5128C2CA6700DC6E71 /* Service */ = {
