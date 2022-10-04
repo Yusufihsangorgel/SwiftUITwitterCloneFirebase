@@ -1,6 +1,14 @@
 # SwiftUITwitterCloneFirebase
  SwifUI Twitter Clone Firebase with MVVM Architecture
  
+ Register --> Finished
+ Login --> Finished
+ Home --> Finished
+ Search --> Finished
+ Profile(tweet-likes) --> Finished
+ 
+ 
+ 
  If your clone and usin this project , please add your GoogleService-Info file to project.
 
 ![Alt text](projectPhotos/1.png "Optional title")
